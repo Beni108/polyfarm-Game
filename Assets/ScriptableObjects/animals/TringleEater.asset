@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3131c5c54e6ae4bb6b19fba61c52ac, type: 3}
   m_Name: TringleEater
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  animalName: 
-  eatsShape: 0
+  sprite: {fileID: 21300000, guid: b7d8aa966226f914ca687b6216972f9f, type: 3}
+  animalName: Trity
+  eatsShape: 2

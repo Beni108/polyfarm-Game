@@ -6,35 +6,52 @@ using UnityEngine.EventSystems;
 public class Crop : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IEndDragHandler,IDragHandler
 {
     [SerializeField] private Canvas canvas;
-    [SerializeField] private CropScriptableObject croptype;
+   public CropScriptableObject croptype;
+
     private RectTransform rectTransform;
-    private RectTransform originalRect;
+    private Vector3 originalRect;
     private CanvasGroup canvasGroup;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        originalRect = transform.position;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = false;
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            canvasGroup.blocksRaycasts = false;
+            Debug.Log("beginDrag");
+        }
 
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        rectTransform.anchoredPosition = originalRect;
         canvasGroup.blocksRaycasts = true;
+        Debug.Log("endDrag");
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
         Debug.Log("OnPointerDown");
+    }
+     
+    public void DestorySelf()
+    {
+        Destroy(gameObject);
     }
 
     // Start is called before the first frame update

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3131c5c54e6ae4bb6b19fba61c52ac, type: 3}
   m_Name: CircleEater
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  animalName: 
-  eatsShape: 0
+  sprite: {fileID: 21300000, guid: ecae3ec393c39e543a87bb695ac6cc97, type: 3}
+  animalName: Circly
+  eatsShape: 1

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db38f98d9394776439c2f1f4d46cd3a4, type: 3}
   m_Name: RedCube_2
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: f59fb820ec455d34aa5c453625d818d5, type: 3}
+  shape: 0
   blueScore: 0
   redScore: 0
   yellowScore: 0
-  greenScore: 0
+  greenScore: 1
   purpleScore: 0
   evolvesInto: []

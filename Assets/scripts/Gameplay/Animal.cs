@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Animal : MonoBehaviour,IDropHandler
 {
-    [SerializeField] private AnimalScriptableObject animalType;
+    public AnimalScriptableObject animalType;
     // Start is called before the first frame update
     void Start()
     {

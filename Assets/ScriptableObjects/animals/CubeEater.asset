@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3131c5c54e6ae4bb6b19fba61c52ac, type: 3}
   m_Name: CubeEater
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  animalName: 
+  sprite: {fileID: 21300000, guid: f917b6c7c3885b044a346073e7e99ef6, type: 3}
+  animalName: Cuber
   eatsShape: 0

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -12,14 +14,15 @@ public class ScoreManager : MonoBehaviour
     public Text Score5;
 
     int score1 = 0, score2 = 0, score3 = 0, score4 = 0, score5 = 0;
-    int goal1 = 0, goal2 = 0, goal3 = 0, goal4 = 0, goal5 = 0;
+    public int goal1 = 0, goal2 = 0, goal3 = 0, goal4 = 0, goal5 = 0;
 
+    public event EventHandler OnScoreChanged;
     // Start is called before the first frame update
     void Start()
     {
         UpdateScore();
     }
-    
+                                                                                    
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +52,7 @@ public class ScoreManager : MonoBehaviour
         score3 += s3;
         score4 += s4;
         score5 += s5;
+
         UpdateScore();
     }
     void UpdateScore()
