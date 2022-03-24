@@ -325,7 +325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &430030870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -495,6 +495,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -510,6 +511,22 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -984,7 +1001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.0000023842, y: 0.00000077491}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &987383235
@@ -1710,7 +1727,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.00023841858, y: -0.0000019073486}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1925155299
@@ -1909,9 +1926,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1999512156}
   - component: {fileID: 1999512158}
-  - component: {fileID: 1999512160}
   - component: {fileID: 1999512161}
   - component: {fileID: 1999512162}
+  - component: {fileID: 1999512157}
   m_Layer: 5
   m_Name: Fruit
   m_TagString: Crop
@@ -1934,33 +1951,25 @@ RectTransform:
   m_Father: {fileID: 1122298670}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.118750006, y: 0.5}
-  m_AnchorMax: {x: 0.118750006, y: 0.5}
-  m_AnchoredPosition: {x: 0.12249756, y: 0}
-  m_SizeDelta: {x: 100.25, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1999512158
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1999512155}
-  m_CullTransparentMesh: 1
---- !u!61 &1999512160
+  m_AnchorMin: {x: 0.08375, y: 0.43555558}
+  m_AnchorMax: {x: 0.08375, y: 0.43555558}
+  m_AnchoredPosition: {x: 1.171875, y: 0.9499817}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.50000006, y: 0.5}
+--- !u!61 &1999512157
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999512155}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 93.509384, y: 0}
+  m_Offset: {x: 0, y: -31.266586}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1971,8 +1980,16 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 287.0187, y: 100}
+  m_Size: {x: 33.44024, y: 37.346725}
   m_EdgeRadius: 0
+--- !u!222 &1999512158
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999512155}
+  m_CullTransparentMesh: 1
 --- !u!114 &1999512161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,8 +2026,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2022086204}
   - component: {fileID: 2022086206}
-  - component: {fileID: 2022086207}
   - component: {fileID: 2022086208}
+  - component: {fileID: 2022086205}
   m_Layer: 5
   m_Name: Animal
   m_TagString: Animal
@@ -2035,18 +2052,10 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 312.9, y: -25.8}
-  m_SizeDelta: {x: 115.51, y: 103.16}
+  m_AnchoredPosition: {x: 312.9, y: -3.43}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &2022086206
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022086203}
-  m_CullTransparentMesh: 1
---- !u!61 &2022086207
+--- !u!61 &2022086205
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2059,7 +2068,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.8849525, y: -4.016922}
+  m_Offset: {x: 0.94965744, y: -0.94963837}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2070,8 +2079,16 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 83.769905, y: 71.966156}
+  m_Size: {x: 71.51078, y: 67.712234}
   m_EdgeRadius: 0
+--- !u!222 &2022086206
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022086203}
+  m_CullTransparentMesh: 1
 --- !u!114 &2022086208
 MonoBehaviour:
   m_ObjectHideFlags: 0

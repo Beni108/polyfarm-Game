@@ -7,6 +7,7 @@ using System;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager instance;
     public Text Score1;
     public Text Score2;
     public Text Score3;
@@ -18,6 +19,10 @@ public class ScoreManager : MonoBehaviour
 
     public event EventHandler OnScoreChanged;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         UpdateScore();
@@ -45,7 +50,7 @@ public class ScoreManager : MonoBehaviour
         score5 = s5;
         UpdateScore();
     }
-    void AddScore(int s1, int s2, int s3, int s4, int s5)
+    public void AddScore(int s1, int s2, int s3, int s4, int s5)
     {
         score1 += s1;
         score2 += s2;
