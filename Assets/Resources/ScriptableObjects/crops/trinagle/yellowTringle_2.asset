@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db38f98d9394776439c2f1f4d46cd3a4, type: 3}
+  m_Name: yellowTringle_2
+  m_EditorClassIdentifier: 
+  ID: Y2
+  itemSprite: {fileID: 21300000, guid: 4859a9638c020e3458259d001a612fe1, type: 3}
+  shape: 2
+  blueScore: 0
+  redScore: 0
+  yellowScore: 3
+  greenScore: 0
+  purpleScore: 0
+  evolvesInto:
+  - {fileID: 11400000, guid: a01eea4dd0768ea40822135e98b757c7, type: 2}
+  - {fileID: 11400000, guid: c8c78c8d4a3140a498c791254d4bf956, type: 2}

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(menuName ="ScriptableObjects/CropScriptableObject")]
-public  class CropScriptableObject : ScriptableObject 
+using croptype;
+namespace croptype
 {
     public enum Shape
     {
@@ -10,7 +10,11 @@ public  class CropScriptableObject : ScriptableObject
         CIRCLE,
         TRINGLE
     }
-
+}
+[CreateAssetMenu(menuName ="ScriptableObjects/CropScriptableObject")]
+public  class CropScriptableObject : ScriptableObject 
+{
+    public string ID;
     public Sprite itemSprite;
     public Shape shape;
     public int blueScore;

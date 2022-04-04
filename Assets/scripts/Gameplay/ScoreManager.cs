@@ -17,11 +17,17 @@ public class ScoreManager : MonoBehaviour
     int score1 = 0, score2 = 0, score3 = 0, score4 = 0, score5 = 0;
     public int goal1 = 0, goal2 = 0, goal3 = 0, goal4 = 0, goal5 = 0;
 
-    public event EventHandler OnScoreChanged;
+
+   
+   // public event EventHandler OnScoreChanged;
     // Start is called before the first frame update
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            
+            instance = this;
+        }
     }
     void Start()
     {
@@ -33,13 +39,28 @@ public class ScoreManager : MonoBehaviour
     {
 
     }
-    void SetGoal(int g1, int g2, int g3, int g4, int g5)
+   public void SetGoal(int g1, int g2, int g3, int g4, int g5)
     {
         goal1 = g1;
         goal2 = g2;
         goal3 = g3;
         goal4 = g4;
         goal5 = g5;
+    }
+    public void SetGoal(int[] g)
+    {
+        this.SetGoal(g[0],g[1],g[2],g[3],g[4]);
+    }
+    public void setScore(int[] score)
+    {
+        if(score.Length==5)
+        {
+            SetScore(score[0],score[1], score[2], score[3],score[4]);
+        }
+    }
+    public int[] GetScore()
+    {
+        return new int[5] { score1, score2, score3, score4, score5 };
     }
     void SetScore(int s1, int s2, int s3, int s4, int s5)
     {

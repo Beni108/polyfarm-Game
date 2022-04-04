@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Crop : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IEndDragHandler,IDragHandler
 {
     [SerializeField] private Canvas canvas;
-  
-   public CropScriptableObject croptype;
+    public CropScriptableObject cropOS;
 
-    private Collider2D thisColldier;
     private RectTransform rectTransform;
     private Vector3 originalRect;
     private CanvasGroup canvasGroup;
@@ -18,22 +17,35 @@ public class Crop : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IEndDrag
 
     private void Awake()
     {
-        thisColldier = GetComponent<Collider2D>();
+        canvas = transform.root.Find("Canvas").GetComponent<Canvas>();
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        originalRect = transform.position;
+        originalRect = rectTransform.anchoredPosition;
+
+        Image thisimage = this.GetComponent<Image>();
+        thisimage.sprite = cropOS.itemSprite;
+        thisimage.alphaHitTestMinimumThreshold = 0.1f;
+
+    }
+    public void refreshFruit()
+    {
+        originalRect = rectTransform.anchoredPosition;
+        Image thisimage = this.GetComponent<Image>();
+        thisimage.sprite = cropOS.itemSprite;
+        thisimage.alphaHitTestMinimumThreshold = 0.1f;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (thisColldier.OverlapPoint(mousePosition))
-        {
+        //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+       // if (thisColldier.OverlapPoint(mousePosition))
+      
+        
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 canvasGroup.blocksRaycasts = false;
                 Debug.Log("beginDrag");
             }
-        }
+        
         else eventData.pointerDrag = null;
     }
 
@@ -48,15 +60,9 @@ public class Crop : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //rectTransform.anchoredPosition = originalRect;
+        rectTransform.anchoredPosition = originalRect;
         canvasGroup.blocksRaycasts = true;
         Debug.Log("endDrag");
-    }
-    public void turnRaycaston()
-    {
-        canvasGroup.blocksRaycasts = !canvasGroup.blocksRaycasts;
-        ;
-
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -64,10 +70,6 @@ public class Crop : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IEndDrag
         Debug.Log("OnPointerDown");
     }
 
-    private void OnMouseDown()
-    {
-        Debug.Log("onMousedown");
-    }
     public void setLocation()
     {
         originalRect = transform.position;
@@ -76,9 +78,24 @@ public class Crop : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IEndDrag
     {
         Destroy(gameObject);
     }
-    public bool touching(Collider2D col)
+
+    public Vector2 getOriginalPosition()
     {
-        return thisColldier.IsTouching(col);
+        return originalRect;
+    }
+    public void setFruit(CropScriptableObject newtype)
+    {
+        cropOS = newtype;
+    }
+    public void setNewfruit(CropScriptableObject newtype, Vector2 newpos)
+    {
+        setOriginalPosition(newpos);
+        setFruit(newtype);
+        refreshFruit();
+    }
+    public void setOriginalPosition(Vector2 newpos)
+    {
+        originalRect = newpos;
     }
 
     // Start is called before the first frame update
