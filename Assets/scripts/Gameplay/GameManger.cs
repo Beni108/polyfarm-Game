@@ -11,10 +11,15 @@ public class GameManger : MonoBehaviour
 
     [SerializeField]
     private GameObject evolutionpanel;
+    [SerializeField]
+    private GameObject victoryPanel;
+    [SerializeField]
+    private GameObject gameOverpanel;
     private CropScriptableObject[] allfruit;
     private Stack<IAction> historyStack = new Stack<IAction>();
     private LevelInfo thislevel=null;
     public Dictionary<string, CropScriptableObject> IDtoCropSO;
+    private int fruitsInScene;
     private void Awake()
     {
         IDtoCropSO = new Dictionary<string, CropScriptableObject>();
@@ -28,7 +33,7 @@ public class GameManger : MonoBehaviour
             IDtoCropSO.Add(obj.ID, obj);
         }
         thislevel = AllLevels.Instance.getLevel(1);
-
+        fruitsInScene = 2;
         ScoreManager scoreBoard = GameObject.Find("Goal Board").GetComponent<ScoreManager>();
         scoreBoard.SetGoal(thislevel.goal);
 
@@ -70,6 +75,11 @@ public class GameManger : MonoBehaviour
     }
     public void UndoCommand()
     {
+        if(victoryPanel.activeSelf || gameOverpanel.activeSelf)
+        {
+            victoryPanel.SetActive(false);
+            gameOverpanel.SetActive(false);
+        }
         if(historyStack.Count>0)
         {
             historyStack.Pop().UndoCommand();
@@ -79,6 +89,17 @@ public class GameManger : MonoBehaviour
     {
         evolutionpanel.GetComponent<EvolutionPanel>().Setup(crop);
     }
+    public void ActivateVictory()
+    {
+        victoryPanel.SetActive(true);
+    }
+    public void checkGameOver()
+    {
+       if(fruitsInScene<=0)
+        {
+            gameOverpanel.SetActive(true);
+        }
+    }
     public void ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -87,5 +108,13 @@ public class GameManger : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-
+    public void fruiteaten()
+    {
+        fruitsInScene--;
+        
+    }
+    public void undofruiteaten()
+    {
+        fruitsInScene++;
+    }
 }

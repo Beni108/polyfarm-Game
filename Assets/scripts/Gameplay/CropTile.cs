@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     private GameObject soil;
     [SerializeField]
     private GameObject selection;
+
+  
     [SerializeField] private Canvas canvas;
 
     private GameObject fruit;
@@ -34,11 +37,9 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
         selection.SetActive(false);
         //soil.SetActive(false);
         fruit = soil.transform.Find("fruit").gameObject;
-
-        rectTransform = fruit.GetComponent<RectTransform>();
-        originalRect = rectTransform.anchoredPosition;
         setFruit(cropOS);
-        calcPivot(cropOS);
+       
+     
     }
     public void switchTile()
     {
@@ -48,12 +49,27 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     public void setFruit(CropScriptableObject s )
     {
         //originalRect = rectTransform.anchoredPosition;
+        if(fruit==null) fruit = soil.transform.Find("fruit").gameObject; 
         cropOS = s;
         Image thisimage = fruit.GetComponent<Image>();
         thisimage.sprite = cropOS.itemSprite;
         thisimage.alphaHitTestMinimumThreshold = 0.1f;
+        calcPivot(cropOS);
+        rectTransform = fruit.GetComponent<RectTransform>();
+        originalRect = rectTransform.anchoredPosition;
     }
-
+    public Vector2 getOriginalPosition()
+    {
+        return originalRect;
+    }
+    public void fruiteaten()
+    {
+        fruit.SetActive(false);
+    }
+    public void fruitUNeaten()
+    {
+        fruit.SetActive(true);
+    }
     public void setID(int id)
     {
         TileID=id;
@@ -122,7 +138,7 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-      // rectTransform.anchoredPosition = originalRect;
+       rectTransform.anchoredPosition = originalRect;
         canvasGroup.blocksRaycasts = true;
         Debug.Log("endDrag");
     }
@@ -140,11 +156,19 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     public void calcPivot(CropScriptableObject s)
     {
         Sprite sprite = s.itemSprite;
-        Bounds bounds = sprite.bounds;
-        var pivotX = bounds.center.x / bounds.extents.x / 2 + 0.5f;
-        var pivotY = bounds.center.y / bounds.extents.y / 2 + 0.5f;
-        var pixelsToUnits = sprite.textureRect.width / bounds.size.x;
-        fruit.GetComponent<RectTransform>().pivot = new Vector2(pivotX,pivotY);
+
+        Vector2 pivot = sprite.pivot / sprite.rect.size;
+        RectTransform thisrec = fruit.GetComponent<RectTransform>();
+        Vector3 deltaposition = thisrec.pivot - pivot;
+        deltaposition.Scale(thisrec.rect.size);
+        deltaposition.Scale(thisrec.localScale);
+
+        
+        fruit.GetComponent<RectTransform>().pivot =pivot;
+        fruit.GetComponent<RectTransform>().localPosition -= deltaposition;
+
+
+
 
     }
 }

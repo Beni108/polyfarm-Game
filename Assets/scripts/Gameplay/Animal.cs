@@ -77,14 +77,21 @@ public class Animal : MonoBehaviour,IDropHandler
             
         Debug.Log("Ondrop");
         
-            if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<Crop>() != null)
+            if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<CropTile>() != null)
             {
-            //if (  eventData.pointerDrag.GetComponent<Crop>().touching(thisColldier))
-            //{
-            GameObject fruit = eventData.pointerDrag;
-            IAction eatingCommand = new EatUi(fruit, ScoreManager.instance.GetScore()); ;
-            Debug.Log(animalType.name + " ate fruit, collided " + fruit);
-            GameManger.instance.ExecuteCommand(eatingCommand);
+          
+            GameObject tile = eventData.pointerDrag;
+            if (animalType.eatsShape == eventData.pointerDrag.GetComponent<CropTile>().cropOS.shape)
+            {
+               
+                IAction eatingCommand = new EatUi(tile, ScoreManager.instance.GetScore()); ;
+                Debug.Log(animalType.name + " ate fruit " + tile);
+                GameManger.instance.ExecuteCommand(eatingCommand);
+            }
+            else
+            {
+                Debug.Log(animalType.name + "didnt ate fruit " + tile);
+            }
             //if (eat(eventData.pointerDrag.GetComponent<Crop>().cropOS))
             //{
             //    eventData.pointerDrag.GetComponent<Crop>().setLocation();

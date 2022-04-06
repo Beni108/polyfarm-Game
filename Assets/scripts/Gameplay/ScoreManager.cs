@@ -96,14 +96,16 @@ public class ScoreManager : MonoBehaviour
         if(goal1==score1 && goal2==score2 && goal3 == score3 && goal4 == score4 && goal5 == score5)
         {
             Debug.Log("PERFECT VICTORY");
+            GameManger.instance.ActivateVictory();
         }
-        else if(goal1 <= score1 && goal2 <= score2 && goal3 <= score3 && goal4 <= score4 && goal5 <= score5)
-        {
-            Debug.Log("VICTORY");
-        }
+        //else if(goal1 <= score1 && goal2 <= score2 && goal3 <= score3 && goal4 <= score4 && goal5 <= score5)
+        //{
+        //    Debug.Log("VICTORY");
+        //}
         else
         {
             Debug.Log("Not Victory yet");
+            GameManger.instance.checkGameOver();
         }
     }
 }
