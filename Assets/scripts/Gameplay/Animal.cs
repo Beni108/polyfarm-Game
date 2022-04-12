@@ -76,7 +76,7 @@ public class Animal : MonoBehaviour,IDropHandler
     {
             
         Debug.Log("Ondrop");
-        
+        Debug.Log(eventData.pointerDrag);
             if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<CropTile>() != null)
             {
           

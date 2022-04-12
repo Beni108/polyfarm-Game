@@ -44,6 +44,7 @@ public class LevelSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //numberOfLevels = AllLevels.Instance.maxlevel;
         pageHolderX = pageHolder.transform.position.x;
         panelDimensions = pageHolder.GetComponent<RectTransform>().rect;
         iconDimensions = levelPrefab.GetComponent<RectTransform>().rect;

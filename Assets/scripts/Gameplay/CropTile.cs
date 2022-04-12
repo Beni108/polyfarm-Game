@@ -14,13 +14,15 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     private GameObject soil;
     [SerializeField]
     private GameObject selection;
+ 
+   
 
-  
+
     [SerializeField] private Canvas canvas;
 
     private GameObject fruit;
     public CropScriptableObject cropOS;
-    private int TileID;
+    private String TileID;
 
 
     private RectTransform rectTransform;
@@ -43,8 +45,8 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     }
     public void switchTile()
     {
-        Tile1.SetActive(Tile1.activeSelf);
-        Tile2.SetActive(Tile2.activeSelf);
+        Tile1.SetActive(!Tile1.activeSelf);
+        Tile2.SetActive(!Tile2.activeSelf);
     }
     public void setFruit(CropScriptableObject s )
     {
@@ -70,13 +72,13 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     {
         fruit.SetActive(true);
     }
-    public void setID(int id)
+    public void setID(String id)
     {
         TileID=id;
     }
-    public void setNewFruit(CropScriptableObject s, int id)
+    public void setNewFruit(CropScriptableObject s, String id)
     {
-
+        soil.SetActive(false);
         if (s != null)
         {
             soil.SetActive(true);
@@ -125,20 +127,23 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (soil.activeSelf) {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                canvasGroup.blocksRaycasts = false;
+                fruit.transform.SetParent(canvas.transform);
+                Debug.Log("beginDrag");
+            }
 
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            canvasGroup.blocksRaycasts = false;
-           
-            Debug.Log("beginDrag");
+            else eventData.pointerDrag = null;
         }
-
         else eventData.pointerDrag = null;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-       rectTransform.anchoredPosition = originalRect;
+        fruit.transform.SetParent(soil.transform);
+        rectTransform.anchoredPosition = originalRect;
         canvasGroup.blocksRaycasts = true;
         Debug.Log("endDrag");
     }
@@ -159,13 +164,18 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
         Vector2 pivot = sprite.pivot / sprite.rect.size;
         RectTransform thisrec = fruit.GetComponent<RectTransform>();
-        Vector3 deltaposition = thisrec.pivot - pivot;
-        deltaposition.Scale(thisrec.rect.size);
-        deltaposition.Scale(thisrec.localScale);
+        //Vector3 deltaposition = thisrec.pivot - pivot;
+        var offset = pivot - thisrec.pivot;
+        //deltaposition.Scale(thisrec.rect.size);
+        //deltaposition.Scale(thisrec.localScale);
 
-        
-        fruit.GetComponent<RectTransform>().pivot =pivot;
-        fruit.GetComponent<RectTransform>().localPosition -= deltaposition;
+        offset.Scale(thisrec.rect.size);
+        var worldpos = thisrec.position + thisrec.TransformVector(offset);
+
+        //fruit.GetComponent<RectTransform>().pivot =pivot;
+        thisrec.pivot = pivot;
+        thisrec.position = worldpos;
+        //fruit.GetComponent<RectTransform>().localPosition -= deltaposition;
 
 
 
