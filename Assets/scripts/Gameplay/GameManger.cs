@@ -231,12 +231,14 @@ public class GameManger : MonoBehaviour
     {
         victoryPanel.SetActive(true);
         Debug.Log(AllLevels.Instance.maxlevel);
-        int  levelReached = PlayerPrefs.GetInt("levelSelected") +1;
-        if(levelReached>=AllLevels.Instance.maxlevel)
+        int  levelReached = PlayerPrefs.GetInt("levelSelected");
+        if (levelReached >= AllLevels.Instance.maxlevel)
         {
             levelReached = AllLevels.Instance.maxlevel;
             victoryPanel.transform.Find("background/ROW/NextButton").gameObject.SetActive(false);
         }
+        else
+            levelReached++;
         if(levelReached>=PlayerPrefs.GetInt("level"))
         {
             PlayerPrefs.SetInt("level", levelReached);
