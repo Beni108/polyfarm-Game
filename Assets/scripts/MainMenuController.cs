@@ -10,9 +10,12 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("LevelSelectV2");
    
    }
-     public void goMainMenu()
+    public void goMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
-
+    public void exit()
+    {
+        Application.Quit();
+    }
 }
