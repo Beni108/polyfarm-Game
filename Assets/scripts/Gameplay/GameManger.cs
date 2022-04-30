@@ -138,7 +138,7 @@ public class GameManger : MonoBehaviour
         }
         Destroy(templateTile);
         createPanels();
-        OnStartPanel.GetComponent<InfoPanel>().popupUniversal("popUpStart");
+        OnStartPanel.GetComponent<InfoPanel>().popupUniversal("popUpstart");
     }
     private void updateGrid(GameObject newcroptile)
     {
