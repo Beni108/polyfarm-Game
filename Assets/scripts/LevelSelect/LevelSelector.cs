@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class LevelSelector : MonoBehaviour
 {
@@ -143,11 +144,27 @@ public class LevelSelector : MonoBehaviour
      public void levelSelected(int levelIndex)
     {
         PlayerPrefs.SetInt("levelSelected", levelIndex);
+        PlayerPrefs.SetInt("popUpstart", 0);
+        PlayerPrefs.SetInt("popUpOver", 0);
         Debug.Log("level selected" + levelIndex);
         Invoke(nameof(loadGameplay),1f);
     }
     public void loadGameplay()
     {
         SceneManager.LoadScene("Gameplay");
+    }
+
+    public void customLevelSelected()
+    {
+        string path = SFB.StandaloneFileBrowser.OpenFilePanel("Select Custom Level File", "", "", false)[0];
+        if ( path != "" || SaveSystem.loadLevel(path)!=null )
+        {
+            AllLevels.Instance.SetCustomLevel(SaveSystem.loadLevel(path));
+            PlayerPrefs.SetInt("levelSelected", -1);
+            PlayerPrefs.SetInt("popUpstart",0);
+            PlayerPrefs.SetInt("popUpOver", 0);
+            Debug.Log("custom level selected");
+            Invoke(nameof(loadGameplay), 1f);
+        }
     }
 }

@@ -22,8 +22,8 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
     private GameObject fruit;
     public CropScriptableObject cropOS;
-    private String TileID;
-
+    public String TileID;
+    private bool draggable = true;
 
     private RectTransform rectTransform;
     private Vector3 originalRect;
@@ -51,7 +51,8 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     public void setFruit(CropScriptableObject s )
     {
         //originalRect = rectTransform.anchoredPosition;
-        if(fruit==null) fruit = soil.transform.Find("fruit").gameObject; 
+        if(fruit==null) fruit = soil.transform.Find("fruit").gameObject;
+        fruit.SetActive(true);
         cropOS = s;
         Image thisimage = fruit.GetComponent<Image>();
         thisimage.sprite = cropOS.itemSprite;
@@ -85,6 +86,11 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
             setFruit(s);
 
         }
+        if(s==null)
+        {
+            cropOS = null;
+           
+        }
        
         setID(id);
     }
@@ -92,6 +98,8 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
     {
         IAction evolvingCommand = new EvolveUi(this.gameObject, targetCrop); ;
         Debug.Log(this.transform + " fruit has evolved");
+        if (draggable == false) evolvingCommand.ExecuteCommand();
+        else
         GameManger.instance.ExecuteCommand(evolvingCommand);
     }
     void Start()
@@ -120,14 +128,19 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
        switch (eventData.button)
         {
             case PointerEventData.InputButton.Right:
-                GameManger.instance.ActivatePanel(this.transform.gameObject);
+                if (fruit.activeSelf && soil.activeSelf)
+                {
+                    if (draggable == false) EditorHandler.instance.ActivatePanel(this.transform.gameObject);
+                    else
+                        GameManger.instance.ActivatePanel(this.transform.gameObject);
+                }
                 break;
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (soil.activeSelf) {
+        if (fruit.activeSelf && soil.activeSelf && draggable) {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 canvasGroup.blocksRaycasts = false;
@@ -180,5 +193,9 @@ public class CropTile : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler,
 
 
 
+    } 
+    public void undraggable()
+    {
+        draggable = false;
     }
 }

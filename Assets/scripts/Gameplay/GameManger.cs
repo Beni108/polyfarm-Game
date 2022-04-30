@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 public class GameManger : MonoBehaviour
 {
@@ -20,7 +21,15 @@ public class GameManger : MonoBehaviour
     private GameObject gridPanel;
     [SerializeField]
     private GameObject croptile;
-  
+    [SerializeField]
+    private GameObject infopanel;
+
+    [SerializeField]
+    private GameObject popupPanel;
+
+    private GameObject OnStartPanel;
+    private GameObject OnUndoPanel;
+    private GameObject OnOverPanel;
 
     private CropScriptableObject[] allfruit;
     private Stack<IAction> historyStack = new Stack<IAction>();
@@ -39,9 +48,21 @@ public class GameManger : MonoBehaviour
         {
             IDtoCropSO.Add(obj.ID, obj);
         }
+        //Debug.Log(PlayerPrefs.GetInt("levelSelected"));
+        if (PlayerPrefs.GetInt("levelSelected") != -1)
+        {
+            thislevel = AllLevels.Instance.getLevel(PlayerPrefs.GetInt("levelSelected"));
+            Debug.Log("loaded Level " + PlayerPrefs.GetInt("levelSelected"));
+        }
+        else
+        {
+            thislevel = AllLevels.Instance.getCustomLevel();
+            //Debug.Log("loaded  custom Level "+ thislevel==null);
+        }
 
-        thislevel = AllLevels.Instance.getLevel(PlayerPrefs.GetInt("levelSelected"));
-        Debug.Log("loaded Level "+PlayerPrefs.GetInt("levelSelected"));
+        updateStatistic("PlayedCounter");
+        updatePlayedLevelPref();
+        saveStats();
         ScoreManager scoreBoard = GameObject.Find("Goal Board").GetComponent<ScoreManager>();
         scoreBoard.SetGoal(thislevel.goal);
 
@@ -78,7 +99,7 @@ public class GameManger : MonoBehaviour
         {
             for (int j = 0; j < 2; j++)
             {
-                for (int k = 0; k < 6; k++)
+                for (int k = 0; k < 3; k++)
                 {
                     GameObject generatetile = Instantiate(templateTile, gridPanel.transform);
 
@@ -111,11 +132,13 @@ public class GameManger : MonoBehaviour
                     switchcolor = !switchcolor;
 
                 }
-                switchcolor = !switchcolor;
+               
             }
+            switchcolor = !switchcolor;
         }
         Destroy(templateTile);
-
+        createPanels();
+        OnStartPanel.GetComponent<InfoPanel>().popupUniversal("popUpStart");
     }
     private void updateGrid(GameObject newcroptile)
     {
@@ -196,6 +219,19 @@ public class GameManger : MonoBehaviour
 
 
     //}
+
+    private void createPanels()
+    {
+        OnStartPanel = Instantiate(popupPanel,popupPanel.transform.parent);
+        if(thislevel.Onstart!=null)
+        OnStartPanel.GetComponent<InfoPanel>().setupTFP(thislevel.Onstart);
+        OnUndoPanel = Instantiate(popupPanel, popupPanel.transform.parent);
+        if(thislevel.OnUndo!=null)
+        OnUndoPanel.GetComponent<InfoPanel>().setupTFP(thislevel.OnUndo);
+        OnOverPanel = Instantiate(popupPanel, popupPanel.transform.parent);
+        if(thislevel.OnOver!=null)
+        OnOverPanel.GetComponent<InfoPanel>().setupTFP(thislevel.OnOver);
+    }
     private void Start()
     {
 
@@ -222,6 +258,8 @@ public class GameManger : MonoBehaviour
         {
             historyStack.Pop().UndoCommand();
         }
+        OnUndoPanel.GetComponent<InfoPanel>().popUp();
+        updateStatistic("UndoCounter");
     }
     public void ActivatePanel(GameObject crop)
     {
@@ -243,6 +281,7 @@ public class GameManger : MonoBehaviour
         {
             PlayerPrefs.SetInt("level", levelReached);
         }
+        saveStats();
         
        
     }
@@ -251,15 +290,22 @@ public class GameManger : MonoBehaviour
        if(fruitsInScene<=0)
         {
             gameOverpanel.SetActive(true);
+            OnOverPanel.GetComponent<InfoPanel>().popupUniversal("popUpOver");
+            updateStatistic("GameOverCounter");
+            saveStats();
         }
+       
     }
     public void ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+ 
     }
     public void goMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        saveStats();
+
     }
     public void fruiteaten()
     {
@@ -274,5 +320,51 @@ public class GameManger : MonoBehaviour
     public void undofruiteaten()
     {
         fruitsInScene++;
+    }
+    public void infobutton()
+    {
+      
+        infopanel.GetComponent<InfoPanel>().activate();
+    }
+    //int prefs Undocounter GameOverCounter  PlayedCounter
+    public void updateStatistic(string Stat)
+    {
+        if (PlayerPrefs.HasKey(Stat))
+        {
+            PlayerPrefs.SetInt(Stat, PlayerPrefs.GetInt(Stat) + 1);
+        }
+        else PlayerPrefs.SetInt(Stat, 1);
+    }
+    //update level played stat as json
+    //array from 0 to max level when 0 is custom level
+    public void updatePlayedLevelPref()
+    {
+        int[] levelcounter;
+        if (PlayerPrefs.HasKey("LevelCounter"))
+        {
+            levelcounter = JsonConvert.DeserializeObject<int[]>(PlayerPrefs.GetString("LevelCounter"));
+            if(levelcounter.Length!= AllLevels.Instance.maxlevel+1)
+            {
+                Debug.Log("error loading levels stats -restarted  "+levelcounter.Length+" " + (AllLevels.Instance.maxlevel+1));
+                levelcounter = new int[AllLevels.Instance.maxlevel+1];
+            }
+        }
+        else
+        {
+            levelcounter = new int[AllLevels.Instance.maxlevel+1];
+           
+        }
+        int levelnumber = PlayerPrefs.GetInt("levelSelected");
+        if (levelnumber == -1)
+        {
+            levelcounter[0]++;
+        }
+        else
+            levelcounter[levelnumber]++;
+        PlayerPrefs.SetString("LevelCounter",JsonConvert.SerializeObject(levelcounter));
+    }
+    public void saveStats()
+    {
+        SaveSystem.saveStatistics();
     }
 }

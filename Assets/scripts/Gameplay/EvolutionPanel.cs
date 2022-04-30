@@ -12,6 +12,8 @@ public class EvolutionPanel : MonoBehaviour
     public CropScriptableObject currentCrop;
     [SerializeField]
     private GameObject evoButton;
+    [SerializeField]
+    private GameObject infopanel;
     public Text title;
 
 
@@ -120,5 +122,9 @@ public class EvolutionPanel : MonoBehaviour
         currentSelected.GetComponent<EvolutionButton>().unselectChangeColor();
         releventTree.SetActive(false);
         transform.gameObject.SetActive(false);
+    }
+    public void infobutton()
+    {
+        infopanel.SetActive(true);
     }
 }

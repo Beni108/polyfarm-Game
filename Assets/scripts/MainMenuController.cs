@@ -14,6 +14,10 @@ public class MainMenuController : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+    public void goEditor()
+    {
+        SceneManager.LoadScene("Editor");
+    }
     public void exit()
     {
         Application.Quit();
